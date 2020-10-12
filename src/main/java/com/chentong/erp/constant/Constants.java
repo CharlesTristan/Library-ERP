@@ -70,7 +70,7 @@ public class Constants {
     /**
      * 用户权鉴缓存 key
      */
-    public static final String IDENTIFY_CACHE_KEY="shiro-cache:com.yingxue.lesson.shiro.CustomRealm.authorizationCache:";
+    public static final String IDENTIFY_CACHE_KEY="shiro-cache:com.chentong.CustomRealm.authorizationCache:";
 
     /**
      * 获取上传的文件类型key

@@ -21,31 +21,4 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
-    <select id="getRoleByUserId" parameterType="string" resultType="string">
-        SELECT
-            b.`name`
-        FROM
-            sys_user_role a
-            LEFT JOIN sys_role b ON a.role_id = b.id
-        WHERE
-            b.`status` = 1
-            AND b.deleted = 1
-            AND a.user_id = #{id}
-    </select>
-    <select id="getPermissionByUserId"  parameterType="string" resultType="string">
-        SELECT
-            d.`name`
-        FROM
-            sys_user_role a
-            LEFT JOIN sys_role b ON a.role_id = b.id
-            LEFT JOIN sys_role_permission c ON b.id = c.role_id
-            LEFT JOIN sys_permission d ON c.permission_id = d.id
-        WHERE
-            b.deleted = 1
-            AND b.`status` = 1
-            AND d.`status` = 1
-            AND d.deleted = 1
-            AND a.id = #{id}
-    </select>
-
 </mapper>

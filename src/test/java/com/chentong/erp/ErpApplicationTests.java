@@ -1,6 +1,9 @@
 package com.chentong.erp;
 
 import com.chentong.erp.common.util.PasswordUtils;
+import com.chentong.erp.vo.resp.DataResult;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import sun.security.util.Password;
@@ -9,11 +12,11 @@ import sun.security.util.Password;
 class ErpApplicationTests {
 
     @Test
-    void contextLoads() {
-        String encode = PasswordUtils.encode("aaa", "aaa");
-        System.out.println(encode);
-        String encode1 = PasswordUtils.encode("bbb", "bbb");
-        System.out.println(encode1);
+    void contextLoads() throws JsonProcessingException {
+        DataResult dataResult = DataResult.success();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String s = objectMapper.writeValueAsString(dataResult);
+        System.out.println(s);
     }
 
 }
