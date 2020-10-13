@@ -49,6 +49,8 @@ public class CustomRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
         String userId=JwtTokenUtil.getUserId(accessToken);
         log.info("userId={}",userId);
+        // 当因为更新权限，删除权限，更新角色，删除角色，首页更新密码，后台管理员删除用户，管理员赋予用户角色所导致的清空授权数据缓存时
+        // 就代表权限已经改变，需要再重新查询放到缓存里
         if(redisService.hasKey(Constants.JWT_REFRESH_KEY+userId)&&redisService.getExpire(Constants.JWT_REFRESH_KEY+userId, TimeUnit.MILLISECONDS)>JwtTokenUtil.getRemainingTime(accessToken)){
             List<String> roles=roleService.getRoleByUserId(userId);
             if(roles!=null&&!roles.isEmpty()){
@@ -59,7 +61,7 @@ public class CustomRealm extends AuthorizingRealm {
                 info.addStringPermissions(permissionByUserId);
             }
 
-        }else {
+        }else {     // 第一次鉴权
             if(claimsFromToken.get(Constants.PERMISSIONS_INFOS_KEY)!=null){
                 info.addStringPermissions((Collection<String>) claimsFromToken.get(Constants.PERMISSIONS_INFOS_KEY));
             }

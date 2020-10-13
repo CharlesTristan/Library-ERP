@@ -75,9 +75,10 @@ public class CustomAccessControlerFilter extends AccessControlFilter {
             customResponse(servletResponse,BaseResponseCode.SYSTEM_ERROR.getCode(), BaseResponseCode.SYSTEM_ERROR.getMsg());
             return false;
         }catch (Exception e){
-
+            customResponse(servletResponse, BaseResponseCode.SYSTEM_ERROR.getCode(), BaseResponseCode.SYSTEM_ERROR.getMsg());
+            return false;
         }
-        return false;
+        return true;
     }
 
     /**

@@ -6,6 +6,7 @@ import com.chentong.erp.service.RedisService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
@@ -40,12 +41,12 @@ public class RedisCache<K,V> implements Cache<K,V> {
         try {
             String redisCacheKey = getCacheKey(key);
             Object rawValue = redisService.get(redisCacheKey);
+            String s = rawValue.toString();
             if (rawValue == null) {
                 return null;
             }
             ObjectMapper objectMapper = new ObjectMapper();
-            SimpleAuthenticationInfo simpleAuthenticationInfo = objectMapper.readValue(rawValue.toString(), SimpleAuthenticationInfo.class);
-//            SimpleAuthorizationInfo simpleAuthenticationInfo= JSON.parseObject(rawValue.toString(),SimpleAuthorizationInfo.class);
+            SimpleAuthorizationInfo simpleAuthenticationInfo = objectMapper.readValue(rawValue.toString(), SimpleAuthorizationInfo.class);
             V value = (V) simpleAuthenticationInfo;
             return value;
         } catch (Exception e) {

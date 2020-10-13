@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chentong.erp.common.util.JwtTokenUtil;
 import com.chentong.erp.common.util.PasswordUtils;
 import com.chentong.erp.constant.Constants;
+import com.chentong.erp.dao.SysPermissionDao;
+import com.chentong.erp.dao.SysRoleDao;
 import com.chentong.erp.dao.SysUserDao;
+import com.chentong.erp.entity.SysPermission;
 import com.chentong.erp.entity.SysUser;
 import com.chentong.erp.exception.BusinessException;
 import com.chentong.erp.exception.code.BaseResponseCode;
@@ -29,6 +32,10 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     @Autowired
     private SysUserDao sysUserDao;
+    @Autowired
+    private SysRoleDao sysRoleDao;
+    @Autowired
+    private SysPermissionDao sysPermissionDao;
     @Override
     public LoginRespVO login(LoginReqVO loginReqVO) {
         // 判断用户是否存在
@@ -74,7 +81,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     private List<String> getRoleByUserId(String userId){
-        List<String> roleByUserId = sysUserDao.getRoleByUserId(userId);
+        List<String> roleByUserId = sysRoleDao.getRoleByUserId(userId);
         return roleByUserId;
     }
 
@@ -84,7 +91,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     private List<String> getPermissionByUserId(String userId){
-        List<String> permissionByUserId = sysUserDao.getPermissionByUserId(userId);
+        List<String> permissionByUserId = sysPermissionDao.getPermissionByUserId(userId);
         return permissionByUserId;
     }
 }
