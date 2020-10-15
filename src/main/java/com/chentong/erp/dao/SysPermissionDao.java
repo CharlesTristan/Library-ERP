@@ -17,5 +17,6 @@ import java.util.List;
 @Repository
 @Mapper
 public interface SysPermissionDao extends BaseMapper<SysPermission> {
-    List<String> getPermissionByUserId(@Param("id") String id);
+    List<SysPermission> getPermissionByUserId(@Param("id") String id);
+    List<String> getPermissionStrByUserId(@Param("id") String id);
 }

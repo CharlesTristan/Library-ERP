@@ -17,9 +17,24 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="deleted" column="deleted" jdbcType="INTEGER"/>
     </resultMap>
-    <select id="getPermissionByUserId"  parameterType="string" resultType="string">
+    <select id="getPermissionByUserId"  parameterType="string" resultType="com.chentong.erp.entity.SysPermission">
         SELECT
-            d.`name`
+            d.*
+        FROM
+            sys_user_role a
+            LEFT JOIN sys_role b ON a.role_id = b.id
+            LEFT JOIN sys_role_permission c ON b.id = c.role_id
+            LEFT JOIN sys_permission d ON c.permission_id = d.id
+        WHERE
+            b.deleted = 1
+            AND b.`status` = 1
+            AND d.`status` = 1
+            AND d.deleted = 1
+            AND a.id = #{id}
+    </select>
+    <select id="getPermissionStrByUserId"  parameterType="string" resultType="string">
+        SELECT
+             d.`perms`
         FROM
             sys_user_role a
             LEFT JOIN sys_role b ON a.role_id = b.id

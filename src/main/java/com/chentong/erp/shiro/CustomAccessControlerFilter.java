@@ -55,7 +55,7 @@ public class CustomAccessControlerFilter extends AccessControlFilter {
         String accessToken=request.getHeader(Constants.ACCESS_TOKEN);
         try {
             // TOKEN_NOT_NULL(4010001,"token 不能为空"),
-            if(StringUtils.isEmpty(accessToken)){
+            if(StringUtils.isBlank(accessToken)){
                 throw new BusinessException(BaseResponseCode.TOKEN_NOT_NULL);
             }
             CustomUsernamePasswordToken customUsernamePasswordToken=new CustomUsernamePasswordToken(accessToken);

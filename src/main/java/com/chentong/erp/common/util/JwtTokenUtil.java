@@ -73,10 +73,10 @@ public class JwtTokenUtil {
         if(null!=claims){
             builder.setClaims(claims);
         }
-        if (!StringUtils.isEmpty(subject)) {
+        if (!StringUtils.isBlank(subject)) {
             builder.setSubject(subject);
         }
-        if (!StringUtils.isEmpty(issuer)) {
+        if (!StringUtils.isBlank(issuer)) {
             builder.setIssuer(issuer);
         }
         builder.setIssuedAt(now);

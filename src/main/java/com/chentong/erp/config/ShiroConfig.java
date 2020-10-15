@@ -64,7 +64,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/api/login", "anon");
         filterChainDefinitionMap.put("/upload/image/**","anon");
         //后端下载接口设置开放性
-//        filterChainDefinitionMap.put("/api/file/*","anon");
+        filterChainDefinitionMap.put("/api/aaa","anon");
         filterChainDefinitionMap.put("/index/**","anon");
         filterChainDefinitionMap.put("/images/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");

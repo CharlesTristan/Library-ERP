@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     private List<String> getPermissionByUserId(String userId){
-        List<String> permissionByUserId = sysPermissionDao.getPermissionByUserId(userId);
+        List<String> permissionByUserId = sysPermissionDao.getPermissionStrByUserId(userId);
         return permissionByUserId;
     }
 }
