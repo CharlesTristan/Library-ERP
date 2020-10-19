@@ -35,7 +35,7 @@ public class SysPermission implements Serializable {
     /**
      * 访问地址URL
      */
-    private String url;
+    private String path;
     /**
      * 资源请求类型
      */
@@ -68,5 +68,9 @@ public class SysPermission implements Serializable {
      * 是否删除(1未删除；0已删除)
      */
     private Integer deleted;
+    /**
+     * 组件名
+     */
+    private String component;
 
 }

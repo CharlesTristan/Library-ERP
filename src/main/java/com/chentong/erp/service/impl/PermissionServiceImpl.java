@@ -54,7 +54,7 @@ public class PermissionServiceImpl implements PermissionService {
             if(sysPermission.getPid().equals("0")){
                 PermissionRespNodeVO respNodeVO=new PermissionRespNodeVO();
                 BeanUtils.copyProperties(sysPermission,respNodeVO);
-                respNodeVO.setTitle(sysPermission.getName());
+                respNodeVO.setName(sysPermission.getName());
                 if(type){
                     respNodeVO.setChildren(getChildExBtn(sysPermission.getId(),all));
                 }else {
@@ -76,7 +76,7 @@ public class PermissionServiceImpl implements PermissionService {
             if(s.getPid().equals(id) && s.getType()!=3){
                 PermissionRespNodeVO respNodeVO=new PermissionRespNodeVO();
                 BeanUtils.copyProperties(s,respNodeVO);
-                respNodeVO.setTitle(s.getName());
+                respNodeVO.setName(s.getName());
                 respNodeVO.setChildren(getChildExBtn(s.getId(),all));
                 list.add(respNodeVO);
             }
@@ -93,7 +93,7 @@ public class PermissionServiceImpl implements PermissionService {
             if(s.getPid().equals(id)){
                 PermissionRespNodeVO respNodeVO=new PermissionRespNodeVO();
                 BeanUtils.copyProperties(s,respNodeVO);
-                respNodeVO.setTitle(s.getName());
+                respNodeVO.setName(s.getName());
                 respNodeVO.setChildren(getChild(s.getId(),all));
                 list.add(respNodeVO);
             }

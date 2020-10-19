@@ -38,7 +38,7 @@ public class HomeServiceImpl implements HomeService {
         UserInfoRespVO vo=new UserInfoRespVO();
         if(sysUser!=null){
             BeanUtils.copyProperties(sysUser,vo);
-            vo.setDeptName("迎学教育总公司");
+            vo.setDeptName("图书馆");
         }
         homeRespVO.setUserInfoVO(vo);
         return homeRespVO;
