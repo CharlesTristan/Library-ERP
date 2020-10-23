@@ -1,5 +1,6 @@
 package com.chentong.erp.dao;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chentong.erp.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;

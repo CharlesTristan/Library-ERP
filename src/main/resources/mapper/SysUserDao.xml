@@ -12,7 +12,7 @@
         <result property="realName" column="real_name" jdbcType="VARCHAR"/>
         <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
         <result property="sex" column="sex" jdbcType="INTEGER"/>
         <result property="deleted" column="deleted" jdbcType="INTEGER"/>
         <result property="createId" column="create_id" jdbcType="VARCHAR"/>

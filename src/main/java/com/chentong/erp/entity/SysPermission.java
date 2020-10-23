@@ -55,7 +55,7 @@ public class SysPermission implements Serializable {
     /**
      * 状态1:正常 0：禁用
      */
-    private Integer status;
+    private String status;
     /**
      * 创建时间
      */

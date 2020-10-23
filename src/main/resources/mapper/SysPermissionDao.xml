@@ -12,7 +12,7 @@
         <result property="pid" column="pid" jdbcType="VARCHAR"/>
         <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
         <result property="type" column="type" jdbcType="INTEGER"/>
-        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="deleted" column="deleted" jdbcType="INTEGER"/>

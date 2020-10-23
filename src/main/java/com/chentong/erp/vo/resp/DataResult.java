@@ -33,7 +33,6 @@ public class DataResult<T>{
     @ApiModelProperty(value = "响应客户端内容")
     private T data;
 
-
     public DataResult() {
         this.code = BaseResponseCode.SUCCESS.getCode();
         this.msg=BaseResponseCode.SUCCESS.getMsg();
