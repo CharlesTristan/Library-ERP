@@ -8,6 +8,7 @@ import com.chentong.erp.vo.resp.PermissionRespNodeVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
  * @date 2020/10/12 15:15
  */
 @Service
+@Transactional
 public class PermissionServiceImpl implements PermissionService {
     @Autowired
     private SysPermissionDao permissionDao;

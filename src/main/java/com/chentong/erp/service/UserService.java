@@ -11,4 +11,12 @@ public interface UserService {
     Page<SysUser> userInfo(UserQueryVO userQueryVO);
 
     void changeUserStatus(UserQueryVO userQueryVO);
+
+    void insertUser(SysUser sysUser);
+
+    void deleteUser(String[] ids);
+
+    void updateUser(SysUser sysUser);
+
+    SysUser getUser(String id);
 }

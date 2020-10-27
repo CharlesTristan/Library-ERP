@@ -1,5 +1,6 @@
 package com.chentong.erp.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,6 @@ import java.util.Date;
  * @since 2020-10-10 10:57:07
  */
 @Data
-@Builder
 public class SysUser implements Serializable {
     private static final long serialVersionUID = -93839798439102143L;
     /**
@@ -84,5 +84,9 @@ public class SysUser implements Serializable {
     private Date createTime;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
-
+    /**
+     * 角色id集合
+     */
+    @TableField(exist = false)
+    private String[] roleIds;
 }

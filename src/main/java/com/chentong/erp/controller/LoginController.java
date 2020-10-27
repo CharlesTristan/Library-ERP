@@ -43,19 +43,4 @@ public class LoginController {
         return dataResult;
     }
 
-//    @PostMapping("bbb")
-//    @RequiresPermissions("test:add")
-//    public DataResult bbb(){
-//        DataResult dataResult = DataResult.success();
-//        dataResult.setData("bbb");
-//        return dataResult;
-//    }
-//
-//    @PostMapping("ccc")
-//    @RequiresPermissions("test:del")
-//    public DataResult ccc(){
-//        DataResult dataResult = DataResult.success();
-//        dataResult.setData("ccc");
-//        return dataResult;
-//    }
 }

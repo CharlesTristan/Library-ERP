@@ -10,11 +10,9 @@ import com.chentong.erp.vo.req.UserQueryVO;
 import com.chentong.erp.vo.resp.DataResult;
 import com.chentong.erp.vo.resp.HomeRespVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * TODO
@@ -30,6 +28,12 @@ public class UserController {
     private HomeService homeService;
     @Autowired
     private UserService userService;
+
+    /**
+     * 得到当前登录用户的信息，包括菜单栏信息
+     * @param request
+     * @return
+     */
     @GetMapping("getInfo")
     public DataResult getInfo(HttpServletRequest request){
         DataResult dataResult = DataResult.success();
@@ -39,6 +43,12 @@ public class UserController {
         dataResult.setData(home);
         return dataResult;
     }
+
+    /**
+     * 条件查询用户列表
+     * @param userQueryVO
+     * @return
+     */
     @GetMapping("userInfo")
     public DataResult userInfo(UserQueryVO userQueryVO){
         DataResult dataResult = DataResult.success();
@@ -47,10 +57,41 @@ public class UserController {
         return dataResult;
     }
 
+    /**
+     * 启用，禁用用户
+     * @param userQueryVO
+     * @return
+     */
     @PutMapping("changeUserStatus")
     public DataResult changeUserStatus(@RequestBody UserQueryVO userQueryVO){
         DataResult dataResult = DataResult.success();
          userService.changeUserStatus(userQueryVO);
+        return dataResult;
+    }
+
+    @GetMapping("/{id}")
+    public DataResult getUser(@PathVariable("id") String id){
+        DataResult dataResult = new DataResult();
+        SysUser sysUser = userService.getUser(id);
+        dataResult.setData(sysUser);
+        return dataResult;
+    }
+    @PostMapping("")
+    public DataResult insertUser(@RequestBody SysUser sysUser){
+        DataResult dataResult = new DataResult();
+        userService.insertUser(sysUser);
+        return dataResult;
+    }
+    @DeleteMapping("/{ids}")
+    public DataResult deleteUser(@PathVariable("ids")String[] ids){
+        DataResult dataResult = new DataResult();
+        userService.deleteUser(ids);
+        return dataResult;
+    }
+    @PutMapping("")
+    public DataResult updateUser(@RequestBody SysUser sysUser){
+        DataResult dataResult = new DataResult();
+        userService.updateUser(sysUser);
         return dataResult;
     }
 }

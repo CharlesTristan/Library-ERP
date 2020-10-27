@@ -13,7 +13,6 @@ import java.util.Date;
  * @since 2020-10-20 19:28:16
  */
 @Data
-@Builder
 public class SysPermission implements Serializable {
     private static final long serialVersionUID = 829726286768674507L;
     /**

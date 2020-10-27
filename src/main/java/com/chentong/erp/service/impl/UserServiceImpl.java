@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chentong.erp.common.util.JwtTokenUtil;
+import com.chentong.erp.common.util.PasswordEncoder;
 import com.chentong.erp.common.util.PasswordUtils;
 import com.chentong.erp.constant.Constants;
 import com.chentong.erp.dao.SysPermissionDao;
 import com.chentong.erp.dao.SysRoleDao;
 import com.chentong.erp.dao.SysUserDao;
+import com.chentong.erp.dao.SysUserRoleDao;
 import com.chentong.erp.entity.SysUser;
+import com.chentong.erp.entity.SysUserRole;
 import com.chentong.erp.exception.BusinessException;
 import com.chentong.erp.exception.code.BaseResponseCode;
 import com.chentong.erp.service.UserService;
@@ -17,12 +20,13 @@ import com.chentong.erp.vo.req.LoginReqVO;
 import com.chentong.erp.vo.req.UserQueryVO;
 import com.chentong.erp.vo.resp.LoginRespVO;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.xml.crypto.Data;
+import java.util.*;
 
 /**
  * TODO
@@ -32,6 +36,7 @@ import java.util.Map;
  * @date 2020/10/9 17:44
  */
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
     private SysUserDao sysUserDao;
@@ -39,12 +44,16 @@ public class UserServiceImpl implements UserService {
     private SysRoleDao sysRoleDao;
     @Autowired
     private SysPermissionDao sysPermissionDao;
+    @Autowired
+    private SysUserRoleDao sysUserRoleDao;
     @Override
     public LoginRespVO login(LoginReqVO loginReqVO) {
         // 判断用户是否存在
         // 判断用户是否被锁定
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("username",loginReqVO.getUsername());
+        List list = sysUserDao.selectList(queryWrapper);
+
         SysUser sysUser = sysUserDao.selectOne(queryWrapper);
         if(sysUser == null || sysUser.getDeleted()==0){
             throw new BusinessException(BaseResponseCode.ACCOUNT_ERROR);
@@ -84,8 +93,8 @@ public class UserServiceImpl implements UserService {
        if(null != userQueryVO){
            queryWrapper.like(StringUtils.isNotBlank(userQueryVO.getUsername()),"username",userQueryVO.getUsername())
                    .like(StringUtils.isNotBlank(userQueryVO.getPhone()),"phone",userQueryVO.getPhone())
-                   .le(userQueryVO.getBeginTime()!=null,"create_time",userQueryVO.getBeginTime())
-                   .ge(userQueryVO.getEndTime()!=null,"create_time",userQueryVO.getEndTime());
+                   .ge(userQueryVO.getBeginTime()!=null,"create_time",userQueryVO.getBeginTime())
+                   .le(userQueryVO.getEndTime()!=null,"create_time",userQueryVO.getEndTime());
        }
         Page<SysUser> objectPage = new Page<>(userQueryVO.getPageNum(), userQueryVO.getPageSize());
         Page<SysUser> sysUserPage = sysUserDao.selectPage(objectPage, queryWrapper);
@@ -97,6 +106,73 @@ public class UserServiceImpl implements UserService {
         UpdateWrapper<SysUser> sysUserUpdateWrapper = new UpdateWrapper<>();
         sysUserUpdateWrapper.set("status",userQueryVO.getStatus()).eq(StringUtils.isNotBlank(userQueryVO.getId()),"id",userQueryVO.getId());
         sysUserDao.update(null,sysUserUpdateWrapper);
+    }
+
+    @Override
+    public void insertUser(SysUser sysUser) {
+        if(StringUtils.isNotBlank(sysUser.getPassword())){
+            String substring = UUID.randomUUID().toString().substring(0, 15);
+            sysUser.setSalt(substring);
+            String encode = PasswordUtils.encode(sysUser.getPassword(),substring );
+            sysUser.setPassword(encode);
+        }
+        sysUser.setCreateTime(new Date());
+        sysUserDao.insert(sysUser);
+        String id = sysUser.getId();
+        String[] roleIds = sysUser.getRoleIds();
+        for (String roleId: roleIds) {
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setRoleId(roleId);
+            sysUserRole.setUserId(id);
+            sysUserRole.setCreateTime(new Date());
+            sysUserRoleDao.insert(sysUserRole);
+        }
+    }
+
+    @Override
+    public void deleteUser(String[] ids) {
+        sysUserDao.deleteBatchIds(Arrays.asList(ids));
+    }
+
+    @Override
+    public void updateUser(SysUser sysUser) {
+        if("undefined".equals(sysUser.getPassword())){
+            sysUser.setPassword(null);
+        }
+        if(StringUtils.isNotBlank(sysUser.getPassword())){
+            String substring = UUID.randomUUID().toString().substring(0, 15);
+            sysUser.setSalt(substring);
+            String encode = PasswordUtils.encode(sysUser.getPassword(),substring );
+            sysUser.setPassword(encode);
+        }
+        sysUserDao.updateById(sysUser);
+        String[] roleIds = sysUser.getRoleIds();
+        QueryWrapper deleteWrapper = new QueryWrapper();
+        deleteWrapper.eq("user_id",sysUser.getId());
+        sysUserRoleDao.delete(deleteWrapper);
+        for (String roleId: roleIds) {
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setRoleId(roleId);
+            sysUserRole.setUserId(sysUser.getId());
+            sysUserRole.setCreateTime(new Date());
+            sysUserRoleDao.insert(sysUserRole);
+        }
+    }
+
+    @Override
+    public SysUser getUser(String id) {
+        SysUser sysUser = sysUserDao.selectById(id);
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_id",id);
+        List<SysUserRole> list = sysUserRoleDao.selectList(queryWrapper);
+        List<String> ids = new ArrayList<>();
+        for (SysUserRole sysUserRole: list) {
+            ids.add(sysUserRole.getRoleId());
+        }
+        String[] rol = new String[list.size()];
+        ids.toArray(rol);
+        sysUser.setRoleIds(rol);
+        return sysUser;
     }
 
     /**

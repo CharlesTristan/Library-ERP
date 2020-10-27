@@ -30,7 +30,7 @@
             AND b.`status` = 1
             AND d.`status` = 1
             AND d.deleted = 1
-            AND a.id = #{id}
+            AND a.user_id = #{id}
     </select>
     <select id="getPermissionStrByUserId"  parameterType="string" resultType="string">
         SELECT
@@ -45,6 +45,6 @@
             AND b.`status` = 1
             AND d.`status` = 1
             AND d.deleted = 1
-            AND a.id = #{id}
+            AND a.user_id = #{id}
     </select>
 </mapper>

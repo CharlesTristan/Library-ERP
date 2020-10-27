@@ -12,6 +12,7 @@ import com.chentong.erp.vo.resp.UserInfoRespVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * @date 2020/10/14 15:37
  */
 @Service
+@Transactional
 public class HomeServiceImpl implements HomeService {
     @Autowired
     private SysUserDao sysUserDao;
@@ -38,7 +40,7 @@ public class HomeServiceImpl implements HomeService {
         UserInfoRespVO vo=new UserInfoRespVO();
         if(sysUser!=null){
             BeanUtils.copyProperties(sysUser,vo);
-            vo.setDeptName("迎学教育总公司");
+            vo.setDeptName("济南图书馆");
         }
         homeRespVO.setUserInfoVO(vo);
         return homeRespVO;
