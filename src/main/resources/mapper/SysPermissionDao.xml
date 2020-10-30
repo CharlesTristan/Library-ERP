@@ -47,4 +47,13 @@
             AND d.deleted = 1
             AND a.user_id = #{id}
     </select>
+    <select id="getPermissionByRoleId"  parameterType="string" resultType="com.chentong.erp.entity.SysPermission">
+        SELECT
+            b.*
+        FROM
+            sys_role_permission a
+            LEFT JOIN sys_permission b ON a.permission_id = b.id
+        WHERE
+            a.role_id = #{id}
+    </select>
 </mapper>

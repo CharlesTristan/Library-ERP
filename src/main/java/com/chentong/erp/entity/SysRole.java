@@ -1,5 +1,7 @@
 package com.chentong.erp.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
@@ -36,10 +38,19 @@ public class SysRole implements Serializable {
     /**
      * 更新时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
     /**
      * 是否删除(1未删除；0已删除)
      */
     private Integer deleted;
+    /**
+     * 该角色下的资源id数组
+     */
+    @TableField(exist = false)
+    private String[] permissionIds;
+
+    @TableField(exist = false)
+    private SysPermission[] sysPermissions;
 
 }

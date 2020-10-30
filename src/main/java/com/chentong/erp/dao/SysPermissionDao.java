@@ -19,4 +19,5 @@ import java.util.List;
 public interface SysPermissionDao extends BaseMapper<SysPermission> {
     List<SysPermission> getPermissionByUserId(@Param("id") String id);
     List<String> getPermissionStrByUserId(@Param("id") String id);
+    SysPermission[] getPermissionByRoleId(@Param("id") String id);
 }

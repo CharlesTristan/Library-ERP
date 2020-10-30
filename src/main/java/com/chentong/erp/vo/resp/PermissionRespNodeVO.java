@@ -14,7 +14,8 @@ import java.util.List;
  */
 @Data
 public class PermissionRespNodeVO {
-
+    @ApiModelProperty(value = "id")
+    private String id;
     @ApiModelProperty(value = "跳转地址")
     private String path;
 

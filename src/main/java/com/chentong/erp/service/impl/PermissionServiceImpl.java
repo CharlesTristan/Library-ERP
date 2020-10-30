@@ -25,6 +25,13 @@ import java.util.List;
 public class PermissionServiceImpl implements PermissionService {
     @Autowired
     private SysPermissionDao permissionDao;
+
+    @Override
+    public List<PermissionRespNodeVO> permissionWithButtonList() {
+        List<SysPermission> list=permissionDao.selectList(null);
+        return getTree(list,false);
+    }
+
     @Override
     public List<PermissionRespNodeVO> permissionTreeList(String userId) {
         List<SysPermission> list=getPermissions(userId);
@@ -59,6 +66,7 @@ public class PermissionServiceImpl implements PermissionService {
                 respNodeVO.setPath(sysPermission.getPath());
                 respNodeVO.setComponent(sysPermission.getComponent());
                 respNodeVO.setName(sysPermission.getName());
+                respNodeVO.setId(sysPermission.getId());
                 MetaVO metaVO = new MetaVO();
                 metaVO.setIcon(sysPermission.getIcon());
                 metaVO.setTitle(sysPermission.getName());
@@ -86,6 +94,7 @@ public class PermissionServiceImpl implements PermissionService {
                 respNodeVO.setPath(s.getPath());
                 respNodeVO.setComponent(s.getComponent());
                 respNodeVO.setName(s.getName());
+                respNodeVO.setId(s.getId());
                 MetaVO metaVO = new MetaVO();
                 metaVO.setIcon(s.getIcon());
                 metaVO.setTitle(s.getName());
@@ -108,6 +117,7 @@ public class PermissionServiceImpl implements PermissionService {
                 respNodeVO.setPath(s.getPath());
                 respNodeVO.setComponent(s.getComponent());
                 respNodeVO.setName(s.getName());
+                respNodeVO.setId(s.getId());
                 MetaVO metaVO = new MetaVO();
                 metaVO.setIcon(s.getIcon());
                 metaVO.setTitle(s.getName());
