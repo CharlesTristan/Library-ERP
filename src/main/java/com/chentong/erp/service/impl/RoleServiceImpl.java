@@ -12,6 +12,7 @@ import com.chentong.erp.entity.SysRolePermission;
 import com.chentong.erp.entity.SysUser;
 import com.chentong.erp.service.RoleService;
 import com.chentong.erp.vo.req.RoleQueryVO;
+import io.jsonwebtoken.lang.Collections;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +98,11 @@ public class RoleServiceImpl implements RoleService {
                 sysRolePermissionDao.insert(sysRolePermission);
             }
         }
+    }
+
+    @Override
+    public void deleteRole(String[] ids) {
+        sysRoleDao.deleteBatchIds(Collections.arrayToList(ids));
     }
 
     @Override

@@ -61,18 +61,15 @@ public class CustomAccessControlerFilter extends AccessControlFilter {
             CustomUsernamePasswordToken customUsernamePasswordToken=new CustomUsernamePasswordToken(accessToken);
             getSubject(servletRequest,servletResponse).login(customUsernamePasswordToken);
         }catch (BusinessException e){
-             // 这个异常是捕获的上面抛出的token不能为空的异常
+            customResponse(servletResponse,e.getCode(),e.getMsg());
+            return false;
+        } catch (AuthenticationException e) {
             if(e.getCause() instanceof BusinessException){
-                BusinessException businessException = (BusinessException) e.getCause();
-                customResponse(servletResponse,e.getCode(),e.getMsg());
+                BusinessException exception= (BusinessException) e.getCause();
+                customResponse(servletResponse,exception.getCode(),exception.getMsg());
             }else {
-                customResponse(servletResponse,BaseResponseCode.TOKEN_ERROR.getCode(), BaseResponseCode.TOKEN_ERROR.getMsg());
-                return false;
+                customResponse(servletResponse, BaseResponseCode.TOKEN_ERROR.getCode(), BaseResponseCode.TOKEN_ERROR.getMsg());
             }
-            return true;
-        }catch (AuthenticationException e){
-            //
-            customResponse(servletResponse,BaseResponseCode.SYSTEM_ERROR.getCode(), BaseResponseCode.SYSTEM_ERROR.getMsg());
             return false;
         }catch (Exception e){
             customResponse(servletResponse, BaseResponseCode.SYSTEM_ERROR.getCode(), BaseResponseCode.SYSTEM_ERROR.getMsg());

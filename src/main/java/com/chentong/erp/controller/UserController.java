@@ -9,6 +9,8 @@ import com.chentong.erp.service.UserService;
 import com.chentong.erp.vo.req.UserQueryVO;
 import com.chentong.erp.vo.resp.DataResult;
 import com.chentong.erp.vo.resp.HomeRespVO;
+import com.chentong.erp.vo.resp.LoginRespVO;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -92,6 +94,15 @@ public class UserController {
     public DataResult updateUser(@RequestBody SysUser sysUser){
         DataResult dataResult = new DataResult();
         userService.updateUser(sysUser);
+        return dataResult;
+    }
+    @GetMapping("/refreshToken")
+    public DataResult refreshToken(HttpServletRequest request){
+        System.out.println("执行了refreshToken接口");
+        String refreshToken = request.getHeader(Constants.REFRESH_TOKEN);
+        LoginRespVO loginRespVO = userService.refreshToken(refreshToken);
+        DataResult dataResult = DataResult.success();
+        dataResult.setData(loginRespVO);
         return dataResult;
     }
 }

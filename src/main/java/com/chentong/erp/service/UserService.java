@@ -19,4 +19,6 @@ public interface UserService {
     void updateUser(SysUser sysUser);
 
     SysUser getUser(String id);
+
+    LoginRespVO refreshToken(String refreshToken);
 }

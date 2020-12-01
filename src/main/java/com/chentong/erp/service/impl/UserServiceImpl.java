@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chentong.erp.common.util.JwtTokenUtil;
-import com.chentong.erp.common.util.PasswordEncoder;
 import com.chentong.erp.common.util.PasswordUtils;
 import com.chentong.erp.constant.Constants;
 import com.chentong.erp.dao.SysPermissionDao;
@@ -20,12 +19,10 @@ import com.chentong.erp.vo.req.LoginReqVO;
 import com.chentong.erp.vo.req.UserQueryVO;
 import com.chentong.erp.vo.resp.LoginRespVO;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 /**
@@ -173,6 +170,26 @@ public class UserServiceImpl implements UserService {
         ids.toArray(rol);
         sysUser.setRoleIds(rol);
         return sysUser;
+    }
+
+    @Override
+    public LoginRespVO refreshToken(String refreshToken) {
+        // 校验这个refreshToken是否有效
+        if(!JwtTokenUtil.validateToken(refreshToken)){
+            throw new BusinessException(BaseResponseCode.TOKEN_ERROR);
+        }
+        String userId = JwtTokenUtil.getUserId(refreshToken);
+        String userName = JwtTokenUtil.getUserName(refreshToken);
+        Map<String,Object> cliams = new HashMap<>();
+        cliams.put(Constants.JWT_USER_NAME,userName);
+        cliams.put(Constants.ROLES_INFOS_KEY,getRoleByUserId(userId));
+        cliams.put(Constants.PERMISSIONS_INFOS_KEY,getPermissionByUserId(userId));
+        String accessToken = JwtTokenUtil.getAccessToken(userId, cliams);
+        String refreshTokenNew = JwtTokenUtil.getRefreshToken(userId, cliams);
+        LoginRespVO loginRespVO = new LoginRespVO();
+        loginRespVO.setAccessToken(accessToken);
+        loginRespVO.setRefreshToken(refreshTokenNew);
+        return loginRespVO;
     }
 
     /**

@@ -50,7 +50,6 @@ public class CustomHashedCredentialsMatcher extends HashedCredentialsMatcher {
         if(redisService.hasKey(Constants.JWT_ACCESS_TOKEN_BLACKLIST+accessToken)){
             throw new BusinessException(BaseResponseCode.TOKEN_ERROR);
         }
-
         //校验token
         if(!JwtTokenUtil.validateToken(accessToken)){
             throw new BusinessException(BaseResponseCode.TOKEN_PAST_DUE);

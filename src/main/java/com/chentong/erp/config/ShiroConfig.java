@@ -62,23 +62,13 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 配置不会被拦截的链接 顺序判断
         filterChainDefinitionMap.put("/api/login", "anon");
-        filterChainDefinitionMap.put("/upload/image/**","anon");
         //后端下载接口设置开放性
-        filterChainDefinitionMap.put("/api/aaa","anon");
-        filterChainDefinitionMap.put("/index/**","anon");
-        filterChainDefinitionMap.put("/images/**", "anon");
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/layui/**", "anon");
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/treetable-lay/**", "anon");
-        filterChainDefinitionMap.put("/api/user/token", "anon");
+        filterChainDefinitionMap.put("/user/refreshToken","anon");
         //放开swagger-ui地址
         filterChainDefinitionMap.put("/swagger/**", "anon");
         filterChainDefinitionMap.put("/v2/api-docs", "anon");
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
-        filterChainDefinitionMap.put("/webjars/**", "anon");
-        filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/captcha.jpg", "anon");
         //druid sql监控配置
         filterChainDefinitionMap.put("/druid/**", "anon");

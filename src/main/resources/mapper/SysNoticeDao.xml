@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chentong.erp.dao.SysNoticeDao">
+
+    <select id="listWithCondition"  parameterType="string" resultType="com.chentong.erp.entity.SysNotice">
+        SELECT a.*,b.username FROM sys_notice a LEFT JOIN sys_user b ON  a.user_id = b.id
+        <where>
+          <if test="sysNotice.title !=null and sysNotice.title != ''">
+              a.title like %#{sysNotice.title}%
+          </if>
+            <if test="sysNotice.type !=null and sysNotice.type != ''">
+                a.type = #{sysNotice.type}
+            </if>
+            <if test="sysNotice.status !=null and sysNotice.status != ''">
+                a.status = #{sysNotice.status}
+            </if>
+            <if test="sysNotice.userId !=null and sysNotice.userId != ''">
+                a.user_id = #{sysNotice.userId}
+            </if>
+        </where>
+    </select>
+</mapper>

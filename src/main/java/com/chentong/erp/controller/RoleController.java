@@ -43,8 +43,6 @@ public class RoleController {
     public DataResult insertRole(@RequestBody SysRole sysRole){
         DataResult dataResult = DataResult.success();
         roleService.insertRole(sysRole);
-//        IPage iPage = roleService.roleList(roleQueryVO);
-//        dataResult.setData(iPage);
         return dataResult;
     }
 
@@ -56,8 +54,7 @@ public class RoleController {
     @PutMapping("")
     public DataResult updateRole(@RequestBody SysRole sysRole){
         DataResult dataResult = DataResult.success();
-//        IPage iPage = roleService.roleList(roleQueryVO);
-//        dataResult.setData(iPage);
+        roleService.updateRole(sysRole);
         return dataResult;
     }
 
@@ -69,8 +66,7 @@ public class RoleController {
     @DeleteMapping("/{ids}")
     public DataResult delRole(@PathVariable("ids") String[] ids){
         DataResult dataResult = DataResult.success();
-//        IPage iPage = roleService.roleList(roleQueryVO);
-//        dataResult.setData(iPage);
+         roleService.deleteRole(ids);
         return dataResult;
     }
     @GetMapping("/{id}")

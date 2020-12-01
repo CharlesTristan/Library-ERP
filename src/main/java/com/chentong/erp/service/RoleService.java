@@ -15,5 +15,7 @@ public interface RoleService {
 
     void updateRole(SysRole sysRole);
 
+    void deleteRole(String[] ids);
+
     SysRole getRole(String id);
 }

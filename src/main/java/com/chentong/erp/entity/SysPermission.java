@@ -51,7 +51,7 @@ public class SysPermission implements Serializable {
     /**
      * 菜单权限类型(1:目录;2:菜单;3:按钮)
      */
-    private Integer type;
+    private String type;
     /**
      * 状态1:正常 0：禁用
      */
